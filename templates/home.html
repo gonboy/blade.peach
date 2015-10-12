@@ -48,17 +48,24 @@
 	      	<i class="code icon"></i> {{Tr(Lang, "home.minimal_example")}}
 	      </h3>
 	      <div class="markdown">
-					<pre><code class="language-go hljs"><span class="hljs-keyword">package</span> main
+		  	<pre><code class="language-java hljs">
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Bootstrap</span> </span>{
 
-<span class="hljs-keyword">import</span> <span class="hljs-string">"github.com/Unknwon/macaron"</span>
-
-<span class="hljs-keyword">func</span> main() {
-    m := macaron.Classic()
-    m.Get(<span class="hljs-string">"/"</span>, <span class="hljs-keyword">func</span>() <span class="hljs-typename">string</span> {
-        <span class="hljs-keyword">return</span> <span class="hljs-string">"Hello world!"</span>
-    })
-    m.Run()
-}</code></pre>
+    <span class="hljs-annotation">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>{}
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+        Blade blade = Blade.me();
+        blade.get(<span class="hljs-string">"/"</span>, <span class="hljs-keyword">new</span> RouteHandler() {
+            <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">handler</span><span class="hljs-params">(Request request, Response response)</span> </span>{
+                response.html(<span class="hljs-string">"&lt;h1&gt;Hello Blade！&lt;/h1&gt;"</span>);
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+            }
+        });
+        blade.app(App.class).start();
+    }
+}
+</code></pre>
 	      </div>
 	    </div>
 	    <div class="column">
