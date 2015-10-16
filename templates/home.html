@@ -5,7 +5,7 @@
 	  {% include Page.NavbarTplPath %}
 
 	  <div class="ui text container">
-	    <img src="/img/favicon.ico" >
+	    <img src="/img/logo.png" >
 	    <h1 class="ui inverted header">
 	      Blade
 	    </h1>
@@ -48,7 +48,9 @@
 	      	<i class="code icon"></i> {{Tr(Lang, "home.minimal_example")}}
 	      </h3>
 	      <div class="markdown">
-		  	<pre><code class="language-java hljs">
+		  	<pre><code class="language-java hljs"><span class="hljs-comment">/**
+ * 初始化配置类
+ */</span>
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Bootstrap</span> </span>{
 
     <span class="hljs-annotation">@Override</span>
@@ -62,6 +64,7 @@
                 <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
             }
         });
+        <span class="hljs-comment">// 在9000端口启动</span>
         blade.app(App.class).start();
     }
 }
@@ -73,20 +76,28 @@
 	      	<i class="cubes icon"></i> {{Tr(Lang, "home.group_routing")}}
 	      </h3>
 	      <div class="markdown">
-					<pre><code class="language-go hljs">m.Group(<span class="hljs-string">"/books"</span>, <span class="hljs-keyword">func</span>() {
-    m.Get(<span class="hljs-string">"/:id"</span>, GetBooks)
-    m.Post(<span class="hljs-string">"/new"</span>, NewBook)
-    m.Put(<span class="hljs-string">"/update/:id"</span>, UpdateBook)
-    m.Delete(<span class="hljs-string">"/delete/:id"</span>, DeleteBook)
+			<pre><code class="language-java hljs"><span class="hljs-comment">// 配置路由</span>
+blade.addRoute(<span class="hljs-string">"/hello"</span>, NormalSample.class, <span class="hljs-string">"hello"</span>);
+blade.addRoute(<span class="hljs-string">"/save_user"</span>, NormalSample.class, <span class="hljs-string">"post:saveUser"</span>);
 
-    m.Group(<span class="hljs-string">"/chapters"</span>, <span class="hljs-keyword">func</span>() {
-        m.Get(<span class="hljs-string">"/:id"</span>, GetBooks)
-        m.Post(<span class="hljs-string">"/new"</span>, NewBook)
-        m.Put(<span class="hljs-string">"/update/:id"</span>, UpdateBook)
-        m.Delete(<span class="hljs-string">"/delete/:id"</span>, DeleteBook)
-    }, MyMiddleware3, MyMiddleware4)
-}, MyMiddleware1, MyMiddleware2)</code></pre>
-				</div>
+<span class="hljs-comment">// 路由实现</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NormalSample</span> </span>{
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">(Request request, Response response)</span></span>{
+        System.out.println(<span class="hljs-string">"进入hello~"</span>);
+        request.attribute(<span class="hljs-string">"name"</span>, <span class="hljs-string">"rose baby"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"hi"</span>;
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveUser</span><span class="hljs-params">(Request request, Response response)</span></span>{
+        System.out.println(<span class="hljs-string">"进入saveUser~"</span>);
+        <span class="hljs-comment">// save操作</span>
+        JSONObject res = <span class="hljs-keyword">new</span> JSONObject().put(<span class="hljs-string">"status"</span>, <span class="hljs-number">200</span>);
+        response.json(res.toString());
+    }
+}
+</code></pre>		
+		  </div>
 	    </div>
 
 	    <div class="column">
@@ -94,49 +105,56 @@
 	      	<i class="newspaper icon"></i> {{Tr(Lang, "home.easy_templating")}}
 	      </h3>
 	      <div class="markdown">
-					<pre><code class="language-go hljs"><span class="hljs-keyword">package</span> main
+			<pre><code class="language-java hljs"><span class="hljs-comment">// 配置路由</span>
+blade.addRoute(<span class="hljs-string">"/hello"</span>, NormalSample.class, <span class="hljs-string">"hello"</span>);
+blade.addRoute(<span class="hljs-string">"/save_user"</span>, NormalSample.class, <span class="hljs-string">"post:saveUser"</span>);
 
-<span class="hljs-keyword">import</span> <span class="hljs-string">"github.com/Unknwon/macaron"</span>
-
-<span class="hljs-keyword">func</span> main() {
-    m := macaron.Classic()
-    m.Use(macaron.Renderer())
+<span class="hljs-comment">// 路由实现</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NormalSample</span> </span>{
     
-    m.Get(<span class="hljs-string">"/"</span>, <span class="hljs-keyword">func</span>(ctx *macaron.Context) {
-        ctx.Data[<span class="hljs-string">"Name"</span>] = <span class="hljs-string">"jeremy"</span>
-        ctx.HTML(<span class="hljs-number">200</span>, <span class="hljs-string">"hello"</span>) <span class="hljs-comment">// 200 is the response code.</span>
-    })
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">(Request request, Response response)</span></span>{
+        System.out.println(<span class="hljs-string">"进入hello~"</span>);
+        request.attribute(<span class="hljs-string">"name"</span>, <span class="hljs-string">"rose baby"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"hi"</span>;
+    }
     
-    m.Run()
-}</code></pre>
-				</div>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveUser</span><span class="hljs-params">(Request request, Response response)</span></span>{
+        System.out.println(<span class="hljs-string">"进入saveUser~"</span>);
+        <span class="hljs-comment">// save操作</span>
+        JSONObject res = <span class="hljs-keyword">new</span> JSONObject().put(<span class="hljs-string">"status"</span>, <span class="hljs-number">200</span>);
+        response.json(res.toString());
+    }
+}
+</code></pre>			
+		  </div>
 	    </div>
 	    <div class="column">
 	      <h3 class="ui header">
-	      	<i class="world icon"></i> {{Tr(Lang, "home.localization")}}
+	      	<i class="world icon"></i> {{Tr(Lang, "home.dsl_db")}}
 	      </h3>
 	      <div class="markdown">
-					<pre><code class="language-go hljs"><span class="hljs-keyword">import</span> (
-    <span class="hljs-string">"github.com/Unknwon/macaron"</span>
-    <span class="hljs-string">"github.com/macaron-contrib/i18n"</span>
-)
-
-<span class="hljs-keyword">func</span> main() {
-    m := macaron.Classic()
-    m.Use(i18n.I18n(i18n.Options{
-        Langs:    []<span class="hljs-typename">string</span>{<span class="hljs-string">"en-US"</span>, <span class="hljs-string">"zh-CN"</span>},
-        Names:    []<span class="hljs-typename">string</span>{<span class="hljs-string">"English"</span>, <span class="hljs-string">"简体中文"</span>},
-    }))
-    m.Get(<span class="hljs-string">"/"</span>, <span class="hljs-keyword">func</span>(locale i18n.Locale) <span class="hljs-typename">string</span> {
-        <span class="hljs-keyword">return</span> <span class="hljs-string">"current language is"</span> + locale.Lang
-    })
-    <span class="hljs-comment">// Use in handler.</span>
-    m.Get(<span class="hljs-string">"/trans"</span>, <span class="hljs-keyword">func</span>(ctx *macaron.Context) <span class="hljs-typename">string</span> {
-        <span class="hljs-keyword">return</span> ctx.Tr(<span class="hljs-string">"hello %s"</span>, <span class="hljs-string">"world"</span>)
-    })
-    m.Run()
-}</code></pre>
-				</div>
+			<pre><code class="language-java hljs"><span class="hljs-comment">// 保存操作</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">save</span><span class="hljs-params">(Integer cid, Integer tid, Integer fuid, Integer tuid)</span> </span>{
+    
+    <span class="hljs-keyword">return</span> model.insert().param(<span class="hljs-string">"cid"</span>, cid)
+    .param(<span class="hljs-string">"tid"</span>, tid)
+    .param(<span class="hljs-string">"fuid"</span>, fuid)
+    .param(<span class="hljs-string">"tuid"</span>, tuid)
+    .param(<span class="hljs-string">"addtime"</span>, <span class="hljs-keyword">new</span> Date())
+    .param(<span class="hljs-string">"ntype"</span>, <span class="hljs-number">0</span>).executeAndCommit() &gt; <span class="hljs-number">0</span>;
+}
+<span class="hljs-comment">// 登录操作</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">signin</span><span class="hljs-params">(String username, String password)</span> </span>{
+    String pwd = EncrypKit.md5(username + password);
+    <span class="hljs-keyword">return</span> model.select().eq(<span class="hljs-string">"username"</span>, username)
+    .eq(<span class="hljs-string">"password"</span>, pwd).fetchOne();
+}
+<span class="hljs-comment">// 查询条数</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getUserCount</span><span class="hljs-params">(String email)</span></span>{
+    <span class="hljs-keyword">return</span> model.count().eq(<span class="hljs-string">"email"</span>, email).fetchCount();
+}
+</code></pre>
+		  </div>
 	    </div>
 	  </div>
 	</div>
