@@ -1,6 +1,7 @@
-/*.ui.inverted.segment {
-	background: #55acee;
-}*/
+.ui.inverted.segment {
+	/*background: #55acee;*/
+    background: #7C66B9;
+}
 #github-stats iframe {
 	width: 100px;
 	height: 30px;
