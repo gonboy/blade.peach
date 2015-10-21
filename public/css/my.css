@@ -2,12 +2,21 @@
 	/*background: #55acee;*/
     background: #7C66B9;
 }
+.banner{
+    margin-top: 50px;
+}
+.banner h2{
+    padding: 20px;
+}
+#github-stats{
+    margin-top: 10px;
+}
+
 #github-stats iframe {
 	width: 100px;
 	height: 30px;
 	margin-top: 10px;
 }
-
 #screenshot-scroll {
 	color: gray;
 }

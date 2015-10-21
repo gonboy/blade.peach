@@ -3,12 +3,8 @@
 {% block body %}
 	<div class="ui inverted vertical masthead center aligned segment">
 	  {% include Page.NavbarTplPath %}
-
-	  <div class="ui text container">
-	    <img src="/img/logo.png" >
-	    <h1 class="ui inverted header">
-	      Blade
-	    </h1>
+	  <div class="ui text container banner">
+	    <img src="/img/banner.png"/>
 	    <h2>{{Tr(Lang, "home.tag_line")}}</h2>
 	    <a class="ui huge primary button" href="{{Page.DocsBaseURL}}">{{Tr(Lang, "home.get_started")}} <i class="right arrow icon"></i></a>
 	    <div id="github-stats">
