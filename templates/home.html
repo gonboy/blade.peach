@@ -6,10 +6,17 @@
 	  <div class="ui text container banner">
 	    <img src="/img/banner.png"/>
 	    <h2>{{Tr(Lang, "home.tag_line")}}</h2>
-	    <a class="ui huge primary button" href="{{Page.DocsBaseURL}}">{{Tr(Lang, "home.get_started")}} <i class="right arrow icon"></i></a>
+
+		<a class="ui huge inverted violet basic animated button" tabindex="0" href="{{Page.DocsBaseURL}}">
+		  <div class="visible content">&nbsp;&nbsp;&nbsp;&nbsp;{{Tr(Lang, "home.get_started")}}&nbsp;&nbsp;&nbsp;&nbsp;</div>
+		  <div class="hidden content">
+		    <i class="right arrow icon"></i>
+		  </div>
+		</a>
+
 	    <div id="github-stats">
-	        <iframe src="http://ghbtns.com/github-btn.html?user=biezhi&repo=blade&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0"></iframe>
-	        <iframe src="http://ghbtns.com/github-btn.html?user=biezhi&repo=blade&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0"></iframe>
+	        <iframe src="http://ghbtns.com/github-btn.html?user=biezhi&repo=blade&type=star&count=true" allowtransparency="true" frameborder="0" scrolling="0" ></iframe>
+	        <iframe src="http://ghbtns.com/github-btn.html?user=biezhi&repo=blade&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" ></iframe>
 	      </div>
 	  </div>
 	</div>
