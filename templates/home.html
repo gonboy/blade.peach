@@ -45,23 +45,21 @@
 	      </h3>
 	      <div class="markdown">
 		  	<pre><code class="language-java hljs"><span class="hljs-comment">/**
- * 初始化配置类
+ * 最简单的服务
  */</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Bootstrap</span> </span>{
-
-    <span class="hljs-annotation">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>{}
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> </span>{
     
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
         Blade blade = Blade.me();
+        <span class="hljs-comment">// 创建一个GET请求</span>
         blade.get(<span class="hljs-string">"/"</span>, <span class="hljs-keyword">new</span> RouteHandler() {
-            <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">handler</span><span class="hljs-params">(Request request, Response response)</span> </span>{
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handle</span><span class="hljs-params">(Request request, Response response)</span> </span>{
                 response.html(<span class="hljs-string">"&lt;h1&gt;Hello Blade！&lt;/h1&gt;"</span>);
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
             }
         });
+
         <span class="hljs-comment">// 在9000端口启动</span>
-        blade.app(App.class).start();
+        blade.start();
     }
 }
 </code></pre>
@@ -73,26 +71,24 @@
 	      </h3>
 	      <div class="markdown">
 			<pre><code class="language-java hljs"><span class="hljs-comment">// 配置路由</span>
-blade.addRoute(<span class="hljs-string">"/hello"</span>, NormalSample.class, <span class="hljs-string">"hello"</span>);
-blade.addRoute(<span class="hljs-string">"/save_user"</span>, NormalSample.class, <span class="hljs-string">"post:saveUser"</span>);
+blade.route(<span class="hljs-string">"/hello"</span>, NormalSample.class, <span class="hljs-string">"hello"</span>);
+blade.route(<span class="hljs-string">"/save_user"</span>, NormalSample.class, <span class="hljs-string">"post:saveUser"</span>);
 
 <span class="hljs-comment">// 路由实现</span>
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NormalSample</span> </span>{
     
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">(Request request, Response response)</span></span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">hello</span><span class="hljs-params">(Request request, Response response)</span></span>{
         System.out.println(<span class="hljs-string">"进入hello~"</span>);
         request.attribute(<span class="hljs-string">"name"</span>, <span class="hljs-string">"rose baby"</span>);
-        <span class="hljs-keyword">return</span> <span class="hljs-string">"hi"</span>;
+        response.render(<span class="hljs-string">"hi"</span>);
     }
     
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveUser</span><span class="hljs-params">(Request request, Response response)</span></span>{
         System.out.println(<span class="hljs-string">"进入saveUser~"</span>);
         <span class="hljs-comment">// save操作</span>
-        JSONObject res = <span class="hljs-keyword">new</span> JSONObject().put(<span class="hljs-string">"status"</span>, <span class="hljs-number">200</span>);
-        response.json(res.toString());
     }
 }
-</code></pre>		
+</code></pre>	
 		  </div>
 	    </div>
 
@@ -101,27 +97,31 @@ blade.addRoute(<span class="hljs-string">"/save_user"</span>, NormalSample.class
 	      	<i class="newspaper icon"></i> {{Tr(Lang, "home.easy_templating")}}
 	      </h3>
 	      <div class="markdown">
-			<pre><code class="language-java hljs"><span class="hljs-comment">// 配置路由</span>
-blade.addRoute(<span class="hljs-string">"/hello"</span>, NormalSample.class, <span class="hljs-string">"hello"</span>);
-blade.addRoute(<span class="hljs-string">"/save_user"</span>, NormalSample.class, <span class="hljs-string">"post:saveUser"</span>);
-
-<span class="hljs-comment">// 路由实现</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NormalSample</span> </span>{
+			<pre><code class="language-java hljs"><span class="hljs-comment">// 抓取心灵鸡汤</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Soup</span> </span>{
     
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">(Request request, Response response)</span></span>{
-        System.out.println(<span class="hljs-string">"进入hello~"</span>);
-        request.attribute(<span class="hljs-string">"name"</span>, <span class="hljs-string">"rose baby"</span>);
-        <span class="hljs-keyword">return</span> <span class="hljs-string">"hi"</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> start_page = <span class="hljs-number">1</span>,end_page = <span class="hljs-number">100</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String REG = 
+        <span class="hljs-string">"&lt;div.*?body\"&gt;([\\s\\S]*?)&lt;p&gt;([\\s\\S]*?)&lt;/p&gt;([\\s\\S]*?)&lt;/div&gt;"</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getBody</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-keyword">return</span> HttpRequest
+        .get(String.format(<span class="hljs-string">"http://soup.setin.cn/p/%d.html"</span>, start_page))
+        .userAgent(<span class="hljs-string">"Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)"</span>)
+        .body();
     }
     
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveUser</span><span class="hljs-params">(Request request, Response response)</span></span>{
-        System.out.println(<span class="hljs-string">"进入saveUser~"</span>);
-        <span class="hljs-comment">// save操作</span>
-        JSONObject res = <span class="hljs-keyword">new</span> JSONObject().put(<span class="hljs-string">"status"</span>, <span class="hljs-number">200</span>);
-        response.json(res.toString());
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-comment">//...</span>
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        Soup joke = <span class="hljs-keyword">new</span> Soup();
+        joke.execute();
     }
 }
-</code></pre>			
+</code></pre>
+		<p><a href="https://github.com/bladejava/spider/blob/master/src/main/java/me/biezhi/splider/Soup.java">查看详细代码</a></p>		
 		  </div>
 	    </div>
 	    <div class="column">
@@ -131,7 +131,6 @@ blade.addRoute(<span class="hljs-string">"/save_user"</span>, NormalSample.class
 	      <div class="markdown">
 			<pre><code class="language-java hljs"><span class="hljs-comment">// 保存操作</span>
 <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">save</span><span class="hljs-params">(Integer cid, Integer tid, Integer fuid, Integer tuid)</span> </span>{
-    
     <span class="hljs-keyword">return</span> model.insert().param(<span class="hljs-string">"cid"</span>, cid)
     .param(<span class="hljs-string">"tid"</span>, tid)
     .param(<span class="hljs-string">"fuid"</span>, fuid)
@@ -139,16 +138,20 @@ blade.addRoute(<span class="hljs-string">"/save_user"</span>, NormalSample.class
     .param(<span class="hljs-string">"addtime"</span>, <span class="hljs-keyword">new</span> Date())
     .param(<span class="hljs-string">"ntype"</span>, <span class="hljs-number">0</span>).executeAndCommit() &gt; <span class="hljs-number">0</span>;
 }
+
 <span class="hljs-comment">// 登录操作</span>
 <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">signin</span><span class="hljs-params">(String username, String password)</span> </span>{
     String pwd = EncrypKit.md5(username + password);
     <span class="hljs-keyword">return</span> model.select().eq(<span class="hljs-string">"username"</span>, username)
     .eq(<span class="hljs-string">"password"</span>, pwd).fetchOne();
 }
+
 <span class="hljs-comment">// 查询条数</span>
 <span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getUserCount</span><span class="hljs-params">(String email)</span></span>{
     <span class="hljs-keyword">return</span> model.count().eq(<span class="hljs-string">"email"</span>, email).fetchCount();
 }
+
+
 </code></pre>
 		  </div>
 	    </div>
