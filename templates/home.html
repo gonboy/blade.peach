@@ -57,7 +57,7 @@
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> </span>{
     
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        Blade blade = Blade.me();
+        Blade blade = me();
         <span class="hljs-comment">// {{Tr(Lang, "home.create_get")}}</span>
         blade.get(<span class="hljs-string">"/"</span>, <span class="hljs-keyword">new</span> RouteHandler() {
             <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handle</span><span class="hljs-params">(Request request, Response response)</span> </span>{
@@ -87,7 +87,7 @@ blade.route(<span class="hljs-string">"/save_user"</span>, NormalSample.class, <
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">hello</span><span class="hljs-params">(Request request, Response response)</span></span>{
         System.out.println(<span class="hljs-string">"进入hello~"</span>);
         request.attribute(<span class="hljs-string">"name"</span>, <span class="hljs-string">"rose baby"</span>);
-        response.render(<span class="hljs-string">"hi"</span>);
+        response.text(<span class="hljs-string">"hi"</span>);
     }
     
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveUser</span><span class="hljs-params">(Request request, Response response)</span></span>{
@@ -136,29 +136,29 @@ blade.route(<span class="hljs-string">"/save_user"</span>, NormalSample.class, <
 	      	<i class="world icon"></i> {{Tr(Lang, "home.dsl_db")}}
 	      </h3>
 	      <div class="markdown">
-			<pre><code class="language-java hljs"><span class="hljs-comment">// {{Tr(Lang, "home.save_opt")}}</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">save</span><span class="hljs-params">(Integer cid, Integer tid, Integer fuid, Integer tuid)</span> </span>{
-    <span class="hljs-keyword">return</span> model.insert().param(<span class="hljs-string">"cid"</span>, cid)
-    .param(<span class="hljs-string">"tid"</span>, tid)
-    .param(<span class="hljs-string">"fuid"</span>, fuid)
-    .param(<span class="hljs-string">"tuid"</span>, tuid)
-    .param(<span class="hljs-string">"addtime"</span>, <span class="hljs-keyword">new</span> Date())
-    .param(<span class="hljs-string">"ntype"</span>, <span class="hljs-number">0</span>).executeAndCommit() &gt; <span class="hljs-number">0</span>;
-}
+			<pre><code class="language-java hljs"><span class="hljs-comment">// query</span>
+List&lt;Post&gt; posts =
+    AR.find(<span class="hljs-string">"where title like ? order by id desc limit ?,?"</span>, title, page, count)
+    .list(Post.class);
 
-<span class="hljs-comment">// {{Tr(Lang, "home.signin_opt")}}</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">signin</span><span class="hljs-params">(String username, String password)</span> </span>{
-    String pwd = EncrypKit.md5(username + password);
-    <span class="hljs-keyword">return</span> model.select().eq(<span class="hljs-string">"username"</span>, username)
-    .eq(<span class="hljs-string">"password"</span>, pwd).fetchOne();
-}
+<span class="hljs-comment">// save</span>
+String sql = <span class="hljs-string">"insert into t_post(title, content, create_time) values(?,?,?)"</span>;
+AR.update(sql, title, content, <span class="hljs-keyword">new</span> Date()).executeAndUpdate();
 
-<span class="hljs-comment">// {{Tr(Lang, "home.search_opt")}}</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getUserCount</span><span class="hljs-params">(String email)</span></span>{
-    <span class="hljs-keyword">return</span> model.count().eq(<span class="hljs-string">"email"</span>, email).fetchCount();
-}
+<span class="hljs-comment">// update</span>
+AR.update(<span class="hljs-string">"update t_post set title = ? where id = ?"</span>,title, id).executeAndUpdate();
 
+<span class="hljs-comment">// delete</span>
+AR.update(<span class="hljs-string">"delete from t_post where id = ?"</span>,id).executeAndUpdate()
 
+<span class="hljs-comment">// find by id</span>
+Topic topic = AR.findById(Topic.class, tid);
+
+<span class="hljs-comment">// pagination</span>
+QueryParam hp = QueryParam.me();
+hp.eq(<span class="hljs-string">"status"</span>, <span class="hljs-number">1</span>).orderby(<span class="hljs-string">"tid, comments, views desc"</span>).add(<span class="hljs-string">"limit 10"</span>);
+
+Page&lt;Topic&gt; topicPage = AR.find(queryParam).page(Topic.class);
 </code></pre>
 		  </div>
 	    </div>
