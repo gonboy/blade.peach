@@ -15,8 +15,8 @@
 		</a>
 
 	    <div id="github-stats">
-	        <iframe src="http://ghbtns.com/github-btn.html?user=biezhi&repo=blade&type=star&count=true" allowtransparency="true" frameborder="0" scrolling="0" ></iframe>
-	        <iframe src="http://ghbtns.com/github-btn.html?user=biezhi&repo=blade&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" ></iframe>
+	        <iframe id="github-star" src="" allowtransparency="true" frameborder="0" scrolling="0" ></iframe>
+	        <iframe id="github-fork" src="" allowtransparency="true" frameborder="0" scrolling="0" ></iframe>
 	      </div>
 	  </div>
 	</div>
@@ -164,6 +164,22 @@ Page&lt;Topic&gt; topicPage = AR.find(queryParam).page(Topic.class);
 	    </div>
 	  </div>
 	</div>
-
 	{% include Page.FooterTplPath %}
+
+<script type="text/javascript">
+	(function() {
+	     function async_load(){
+	         var s = document.getElementById('github-star');
+	         s.src = 'https://ghbtns.com/github-btn.html?user=biezhi&repo=blade&type=star&count=true';
+
+	         var f = document.getElementById('github-fork');
+	         f.src = 'https://ghbtns.com/github-btn.html?user=biezhi&repo=blade&type=fork&count=true';
+	     }
+	     if (window.attachEvent)
+	         window.attachEvent('onload', async_load);
+	     else
+	         window.addEventListener('load', async_load, false);
+	 })();
+</script>
+
 {% endblock %}
